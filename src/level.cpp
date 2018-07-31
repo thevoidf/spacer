@@ -12,7 +12,7 @@
 Level::Level(lowg::Window* window)
 	: window(window)
 {
-	lowg::Shader* shader = new lowg::Shader("/home/void/Projects/lowg/assets/shaders/texture.vert", "/home/void/Projects/lowg/assets/shaders/texture.frag");
+	lowg::Shader* shader = new lowg::Shader("assets/shaders/simple.vert", "assets/shaders/simple.frag");
 	layer = new lowg::Layer(new lowg::BatchRenderer2D(), shader, glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
 	player = new Player(0.0f, 0.0f, this, window);
 	layer->add(player->getSprite());
