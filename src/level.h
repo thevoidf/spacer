@@ -11,6 +11,7 @@ class Enemy;
 class ParticleSpawner;
 
 class Level {
+	friend class Player;
 	friend class Enemy;
 	friend class ParticleSpawner;
 private:
@@ -20,6 +21,7 @@ private:
 
 	float timer;
 	float enemySpawnDelay;
+	bool gameOver;
 
 	std::vector<Entity*> entities;
 	std::vector<Entity*> stars;
@@ -36,4 +38,6 @@ public:
 	void addEntity(Entity* entity);
 	void addProjectile(Entity* entity);
 	void addParticle(Entity* particle);
+
+	bool isGameOver() const { return gameOver; }
 };

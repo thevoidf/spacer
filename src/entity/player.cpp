@@ -1,4 +1,6 @@
 #include "player.h"
+#include "lowg/text.h"
+#include "spawner/particle_spawner.h"
 
 Player::Player(float x, float y, Level* level, lowg::Window* window)
 	: Ship(x, y), level(level), window(window)
@@ -22,6 +24,18 @@ void Player::update()
 		level->addProjectile(new Projectile(sprite->position.x, sprite->position.y + 0.5f));
 		level->addProjectile(new Projectile(sprite->position.x + 1.2f, sprite->position.y + 2.0f));
 		level->addProjectile(new Projectile(sprite->position.x + 2.5f, sprite->position.y + 0.5f));
+	}
+
+	for (unsigned int i = 0; i < level->enemies.size(); i++) {
+		if (collision(level->enemies[i])) {
+			new ParticleSpawner(getSprite()->position.x, getSprite()->position.y, 1000, level);
+			level->layer->add(new lowg::Text("Game Over!", -5.0f, 2.0f, glm::vec4(1.0f, 0.0f, 1.0f, 1.0f)));
+			remove();
+			level->enemies[i]->remove();
+			//level->enemies.erase(level->enemies.begin() + i);
+			//level->layer->remove(level->enemies[i]->getSprite());
+			//delete level->enemies[i];
+		}
 	}
 }
 

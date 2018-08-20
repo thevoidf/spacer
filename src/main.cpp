@@ -15,6 +15,7 @@ int main()
 	while (!window.shouldClose()) {
 		window.clear(0.0f, 0.0f, 0.0f, 0.0f);
 
+		// implement game loop
 		level.update();
 		level.render();
 

@@ -8,6 +8,4 @@ public:
 
 	void update() override;
 	void render() override;
-	
-	bool collision(Entity* other) const;
 };

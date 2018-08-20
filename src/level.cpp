@@ -7,10 +7,11 @@
 #include "entity/ship.h"
 #include "entity/player.h"
 #include "entity/enemy.h"
+#include "lowg/text.h"
 #include "entity/spawner/particle_spawner.h"
 
 Level::Level(lowg::Window* window)
-	: window(window)
+	: window(window), gameOver(false)
 {
 	lowg::Shader* shader = new lowg::Shader("assets/shaders/simple.vert", "assets/shaders/simple.frag");
 	layer = new lowg::Layer(new lowg::BatchRenderer2D(), shader, glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
@@ -42,7 +43,13 @@ void Level::update()
 		}
 	}
 	
-	player->update();
+	if (player->isRemoved()) {
+		layer->remove(player->getSprite());
+		gameOver = true;
+	} else {
+		player->update();
+	}
+
 	for (unsigned int i = 0; i < entities.size(); i++) {
 		Entity* entity = entities[i];
 		entity->update();

@@ -21,6 +21,7 @@ void Projectile::render()
 {
 }
 
+/*
 bool Projectile::collision(Entity* other) const
 {
 	lowg::Sprite a = *sprite;
@@ -31,3 +32,4 @@ bool Projectile::collision(Entity* other) const
 			a.position.y < b.position.y + b.getSize().y &&
 			a.getSize().y + a.position.y > b.position.y;
 }
+*/

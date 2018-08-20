@@ -17,4 +17,6 @@ public:
 	
 	void remove() { removed = true; }
 	inline const bool isRemoved() const { return removed; }
+
+	bool collision(Entity* other) const;
 };
