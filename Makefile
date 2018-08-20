@@ -5,10 +5,13 @@ SRC = $(shell find src -name '*.cpp')
 OBJ = $(patsubst %.cpp, %.o, $(SRC))
 
 CFLAGS = -Iinclude
+CFLAGS += -I/usr/include/freetype2
 CFLAGS += -Llib
 CFLAGS += `pkg-config --static --libs glfw3`
-CFLAGS += -lfreeimage
 CFLAGS += -llowg
+CFLAGS += -lfreeimage
+CFLAGS += -lfreetype
+CFLAGS += -lfreetype-gl
 
 all: $(OUT)
 
