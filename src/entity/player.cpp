@@ -29,7 +29,6 @@ void Player::update()
 	for (unsigned int i = 0; i < level->enemies.size(); i++) {
 		if (collision(level->enemies[i])) {
 			new ParticleSpawner(getSprite()->position.x, getSprite()->position.y, 1000, level);
-			level->layer->add(new lowg::Text("Game Over!", -5.0f, 2.0f, glm::vec4(1.0f, 0.0f, 1.0f, 1.0f)));
 			remove();
 			level->enemies[i]->remove();
 			//level->enemies.erase(level->enemies.begin() + i);

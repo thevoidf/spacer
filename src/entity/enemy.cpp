@@ -22,7 +22,7 @@ void Enemy::update()
 		}
 	}
 
-	if (sprite->position.y <= -10.0f) {
+	if (sprite->position.y <= -14.0f) {
 		remove();
 	}
 }

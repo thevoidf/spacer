@@ -3,7 +3,7 @@
 #include "lowg/sprite.h"
 
 class Entity {
-protected:
+public:
 	lowg::Sprite* sprite;
 	bool removed;
 public:

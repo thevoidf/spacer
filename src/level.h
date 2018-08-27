@@ -1,8 +1,10 @@
 #pragma once
 
 #include <vector>
+#include <chrono>
 #include "lowg/window.h"
 #include "lowg/layer.h"
+#include "state.h"
 
 class Entity;
 class Ship;
@@ -10,18 +12,25 @@ class Player;
 class Enemy;
 class ParticleSpawner;
 
+namespace lowg {
+	class Text;
+}
+
 class Level {
 	friend class Player;
 	friend class Enemy;
 	friend class ParticleSpawner;
+	friend class Menu;
 private:
 	lowg::Window* window;
 	Ship* player;
 	lowg::Layer* layer;
-
-	float timer;
+public:
+	lowg::Text* gameOverText;
+	std::chrono::time_point<std::chrono::high_resolution_clock> timer;
+private:	
 	float enemySpawnDelay;
-	bool gameOver;
+	State& state;
 
 	std::vector<Entity*> entities;
 	std::vector<Entity*> stars;
@@ -29,7 +38,7 @@ private:
 	std::vector<Entity*> projectiles;
 	std::vector<Entity*> particles;
 public:
-	Level(lowg::Window* window);
+	Level(lowg::Window* window, State& state);
 	~Level();
 
 	void update();
@@ -38,6 +47,4 @@ public:
 	void addEntity(Entity* entity);
 	void addProjectile(Entity* entity);
 	void addParticle(Entity* particle);
-
-	bool isGameOver() const { return gameOver; }
 };

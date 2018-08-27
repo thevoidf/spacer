@@ -5,7 +5,7 @@
 Projectile::Projectile(float x, float y)
 	: Entity(x, y)
 {
-	sprite = new lowg::Sprite(x, y, 1.5f, 1.5f, new lowg::Texture("/home/void/Pictures/ship.png"));
+	sprite = new lowg::Sprite(x, y, 1.5f, 1.5f, new lowg::Texture("/home/void/Pictures/ship.png", GL_RGBA, GL_BGRA));
 }
 
 void Projectile::update()

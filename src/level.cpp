@@ -10,15 +10,16 @@
 #include "lowg/text.h"
 #include "entity/spawner/particle_spawner.h"
 
-Level::Level(lowg::Window* window)
-	: window(window), gameOver(false)
+Level::Level(lowg::Window* window, State& state)
+	: window(window), state(state)
 {
 	lowg::Shader* shader = new lowg::Shader("assets/shaders/simple.vert", "assets/shaders/simple.frag");
 	layer = new lowg::Layer(new lowg::BatchRenderer2D(), shader, glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
 	player = new Player(0.0f, 0.0f, this, window);
 	layer->add(player->getSprite());
 
-	timer = glfwGetTime();
+	timer = std::chrono::high_resolution_clock::now();
+	gameOverText = new lowg::Text("Game Over!", -5.0f, 2.0f, glm::vec4(1.0f, 0.0f, 1.0f, 1.0f));
 	enemySpawnDelay = 0.5;
 
 	srand(time(NULL));
@@ -44,8 +45,10 @@ void Level::update()
 	}
 	
 	if (player->isRemoved()) {
-		layer->remove(player->getSprite());
-		gameOver = true;
+		if (state == PLAYING) {
+			layer->remove(player->getSprite());
+			state = END;
+		}
 	} else {
 		player->update();
 	}
@@ -55,13 +58,16 @@ void Level::update()
 		entity->update();
 	}
 
-	if (glfwGetTime() - timer >= enemySpawnDelay) {
-		int enemyX = rand() % 16 + (4 - 16);
-		Ship* enemy = new Enemy(enemyX, 10.0f, this);
-		enemies.push_back(enemy);
-		layer->add(enemy->getSprite());
+	if (state == PLAYING) {
+		std::chrono::duration<float> duration = std::chrono::high_resolution_clock::now() - timer;
+		if (duration.count() >= enemySpawnDelay) {
+			int enemyX = rand() % 16 + (4 - 16);
+			Ship* enemy = new Enemy(enemyX, 10.0f, this);
+			enemies.push_back(enemy);
+			layer->add(enemy->getSprite());
 
-		timer += enemySpawnDelay;
+			timer = std::chrono::high_resolution_clock::now();
+		}
 	}
 
 	for (unsigned int i = 0; i < enemies.size(); i++) {
@@ -98,10 +104,39 @@ void Level::update()
 		}
 	}
 
-	//std::cout << "entities: " << entities.size() << std::endl;
-	//std::cout << "projectiles: " << projectiles.size() << std::endl;
-	//std::cout << "layer: " << layer->getRenderables().size() << std::endl;
-	//std::cout << "particles: " << particles.size() << std::endl;
+	if (window->isKeyDown(GLFW_KEY_ESCAPE))
+		state = MENU;
+
+	if (state == END) {
+		layer->add(gameOverText);
+		state = HOLD;
+	} else if (state == HOLD && window->isKeyDown(GLFW_KEY_ENTER)) {
+		for (unsigned int i = 0; i < stars.size(); i++) {
+			layer->remove(stars[i]->getSprite());
+			delete stars[i];
+			stars.erase(stars.begin() + i);
+		}
+
+		for (unsigned int i = 0; i < enemies.size(); i++) {
+			layer->remove(enemies[i]->getSprite());
+			delete enemies[i];
+			enemies.erase(enemies.begin() + i);
+		}
+
+		player->getSprite()->position.x = 0.0f;
+		player->getSprite()->position.y = 0.0f;
+		layer->add(player->getSprite());
+		player->removed = false;
+
+		layer->remove(gameOverText);
+
+		state = PLAYING;
+	}
+
+	// std::cout << "entities: " << entities.size() << std::endl;
+	// std::cout << "projectiles: " << projectiles.size() << std::endl;
+	// std::cout << "layer: " << layer->getRenderables().size() << std::endl;
+	// std::cout << "particles: " << particles.size() << std::endl;
 }
 
 void Level::render()
