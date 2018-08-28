@@ -19,7 +19,9 @@ Level::Level(lowg::Window* window, State& state)
 	layer->add(player->getSprite());
 
 	timer = std::chrono::high_resolution_clock::now();
-	gameOverText = new lowg::Text("Game Over!", -5.0f, 2.0f, glm::vec4(1.0f, 0.0f, 1.0f, 1.0f));
+
+	Font* font = new Font("assets/fonts/Vera.ttf", 32);
+	gameOverText = new lowg::Text("Game Over!", -5.0f, 2.0f, glm::vec4(1.0f, 0.0f, 1.0f, 1.0f), font);
 	enemySpawnDelay = 0.5;
 
 	srand(time(NULL));

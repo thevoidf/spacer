@@ -15,14 +15,16 @@ Menu::Menu(lowg::Window* window, Level& level, State& state)
 	Shader* shader = new Shader("assets/shaders/simple.vert", "assets/shaders/simple.frag");
 	layer = new Layer(new BatchRenderer2D(), shader, glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
 
-	title = new Text("Spacer", -2.0f, 6.0f, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
+	Font* font = new Font("assets/fonts/Vera.ttf", 32);
+	Font* titleFont = new Font("assets/fonts/Vera.ttf", 46);
+	title = new Text("Spacer", -4.0f, 6.0f, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f), titleFont);
 	
-	items.push_back(new Text("Play", -2.0f, 3.0f, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)));
-	items.push_back(new Text("Options", -2.0f, 1.0f, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)));
-	items.push_back(new Text("Exit", -2.0f, -1.0f, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)));
+	items.push_back(new Text("Play", -2.0f, 3.0f, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f), font));
+	items.push_back(new Text("Options", -2.0f, 1.0f, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f), font));
+	items.push_back(new Text("Exit", -2.0f, -1.0f, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f), font));
 	
-	options.push_back(new Text("Difficulty: Easy", -2.0f, 3.0f, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)));
-	options.push_back(new Text("Back", -2.0f, 1.0f, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)));
+	options.push_back(new Text("Difficulty: Easy", -2.0f, 3.0f, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f), font));
+	options.push_back(new Text("Back", -2.0f, 1.0f, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f), font));
 
 	layer->add(title);
 	unsigned int i;
