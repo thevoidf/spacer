@@ -2,8 +2,9 @@
 
 #include <iostream>
 #include "lowg/window.h"
+#include "lowg/shader.h"
 #include "lowg/layer.h"
-#include "lowg/batchrenderer2d.h"
+#include "lowg/renderer2d.h"
 #include "lowg/text.h"
 #include "level.h"
 
@@ -13,7 +14,7 @@ Menu::Menu(lowg::Window* window, Level& level, State& state)
 	using namespace lowg;
 	
 	Shader* shader = new Shader("assets/shaders/simple.vert", "assets/shaders/simple.frag");
-	layer = new Layer(new BatchRenderer2D(), shader, glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+	layer = new Layer(new Renderer2D(), shader, glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
 
 	Font* font = new Font("assets/fonts/Vera.ttf", 32);
 	Font* titleFont = new Font("assets/fonts/Vera.ttf", 46);

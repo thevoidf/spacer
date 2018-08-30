@@ -7,7 +7,7 @@ class Level;
 namespace lowg {
 	class Window;
 	class Layer;
-	class BatchRenderer2D;
+	class Renderer2D;
 	class Text;
 }
 

@@ -1,8 +1,9 @@
 #include "level.h"
 #include <iostream>
 #include <time.h>
-#include "lowg/batchrenderer2d.h"
+#include "lowg/renderer2d.h"
 #include "lowg/shader.h"
+#include "lowg/layer.h"
 #include "entity/star.h"
 #include "entity/ship.h"
 #include "entity/player.h"
@@ -14,13 +15,13 @@ Level::Level(lowg::Window* window, State& state)
 	: window(window), state(state)
 {
 	lowg::Shader* shader = new lowg::Shader("assets/shaders/simple.vert", "assets/shaders/simple.frag");
-	layer = new lowg::Layer(new lowg::BatchRenderer2D(), shader, glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+	layer = new lowg::Layer(new lowg::Renderer2D(), shader, glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
 	player = new Player(0.0f, 0.0f, this, window);
 	layer->add(player->getSprite());
 
 	timer = std::chrono::high_resolution_clock::now();
 
-	Font* font = new Font("assets/fonts/Vera.ttf", 32);
+	lowg::Font* font = new lowg::Font("assets/fonts/Vera.ttf", 32);
 	gameOverText = new lowg::Text("Game Over!", -5.0f, 2.0f, glm::vec4(1.0f, 0.0f, 1.0f, 1.0f), font);
 	enemySpawnDelay = 0.5;
 

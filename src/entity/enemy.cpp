@@ -1,4 +1,5 @@
 #include "enemy.h"
+#include "lowg/layer.h"
 #include "../level.h"
 #include "projectile.h"
 #include "spawner/particle_spawner.h"

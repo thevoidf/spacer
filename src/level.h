@@ -3,7 +3,6 @@
 #include <vector>
 #include <chrono>
 #include "lowg/window.h"
-#include "lowg/layer.h"
 #include "state.h"
 
 class Entity;
@@ -14,6 +13,7 @@ class ParticleSpawner;
 
 namespace lowg {
 	class Text;
+	class Layer;
 }
 
 class Level {
