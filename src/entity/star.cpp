@@ -11,7 +11,7 @@ Star::Star(float x, float y)
 	float b = rand() % 1000 / 1000.0f;
 
 	float w = (2.0f * ((float) rand() / (float) RAND_MAX) - 1.0f) / 6.0f;
-	sprite = new lowg::Sprite(x, y, w, w, glm::vec4(r, g, b, 1.0f));
+	sprite = new lowg::Sprite(x, y, 0.0f, w, w, glm::vec4(r, g, b, 1.0f));
 }
 
 void Star::update()

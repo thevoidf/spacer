@@ -4,11 +4,11 @@
 Particle::Particle(float x, float y, float xa, float ya, float r, float g, float b)
 	: Entity(x, y), xa(xa), ya(ya)
 {
-	sprite = new lowg::Sprite(x, y, 0.2f, 0.2f, glm::vec4(r, g, b, 1.0f));
+	sprite = new lowg::Sprite(x, y, 0.3f, 0.2f, 0.2f, glm::vec4(r, g, b, 1.0f));
 	
 	sprite->position.x = x;
 	sprite->position.y = y;
-	sprite->position.z = 0.0f;
+	sprite->position.z = 0.3f;
 
 	life = rand() % 90 + 5;
 }
