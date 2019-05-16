@@ -18,21 +18,34 @@ int main()
 	Menu menu(&window, level, state);
 
 	std::chrono::time_point<std::chrono::high_resolution_clock> start;
+	std::chrono::time_point<std::chrono::high_resolution_clock> prev = std::chrono::high_resolution_clock::now();
 	int frames = 0;
+
+	float lag = 0.0f;
+	float FPS = 20.0f * 1000000.0f;
 	while (!window.shouldClose()) {
 		window.clear(0.0f, 0.0f, 0.0f, 0.0f);
 
-		// log_state(state);
+		std::chrono::time_point<std::chrono::high_resolution_clock> now = std::chrono::high_resolution_clock::now();
+		float delta = (now - prev).count();
+		prev = now;
+		lag += delta;
 
-		if (state == MENU || state == OPTIONS) {
-			menu.update();
-			menu.render();
-		} else if (state >= PLAYING && state <= HOLD) {
-			level.update();
-			level.render();
-		} else if (state == EXIT) {
-			exit(EXIT_SUCCESS);
+		if (lag >= FPS) {
+			if (state == MENU || state == OPTIONS)
+				menu.update();
+			else if (state >= PLAYING && state <= HOLD)
+				level.update();
+			else if (state == EXIT)
+				exit(EXIT_SUCCESS);
+			window.syncKeys();
+			lag -= FPS;
 		}
+
+		if (state == MENU || state == OPTIONS)
+			menu.render();
+		else if (state >= PLAYING && state <= HOLD)
+			level.render();
 
 		frames++;
 		std::chrono::duration<float> duration = std::chrono::high_resolution_clock::now() - start;
@@ -41,7 +54,6 @@ int main()
 			frames = 0;
 			start = std::chrono::high_resolution_clock::now();
 		}
-		
 		window.update();
 	}
 }
